@@ -1,0 +1,54 @@
+PROG 17: Create a procedure for calculating total marks of three subjects and store the value in the sessional_Exam table. 
+
+-- Step 1: Create the sessional_exam table
+CREATE TABLE sessional_exam (
+    student_id NUMBER PRIMARY KEY,
+    subject1_marks NUMBER,
+    subject2_marks NUMBER,
+    subject3_marks NUMBER,
+    total_marks NUMBER
+);
+
+-- Step 2: Insert sample data into sessional_exam table
+INSERT INTO sessional_exam (student_id, subject1_marks, subject2_marks, subject3_marks)
+VALUES (1, 75, 80, 85);
+
+INSERT INTO sessional_exam (student_id, subject1_marks, subject2_marks, subject3_marks)
+VALUES (2, 60, 70, 65);
+
+INSERT INTO sessional_exam (student_id, subject1_marks, subject2_marks, subject3_marks)
+VALUES (3, 90, 85, 88);
+
+INSERT INTO sessional_exam (student_id, subject1_marks, subject2_marks, subject3_marks)
+VALUES (4, 50, 55, 60);
+
+INSERT INTO sessional_exam (student_id, subject1_marks, subject2_marks, subject3_marks)
+VALUES (5, 80, 82, 78);
+
+-- Step 3: Create the procedure to calculate total marks
+CREATE OR REPLACE PROCEDURE calculate_total_marks IS
+BEGIN
+    -- Update the total_marks for each student
+    UPDATE sessional_exam
+    SET total_marks = subject1_marks + subject2_marks + subject3_marks;
+
+    -- Commit the changes to the table
+    COMMIT;
+
+    -- Output a success message
+    DBMS_OUTPUT.PUT_LINE('Total marks for all students have been updated successfully.');
+END calculate_total_marks;
+/
+
+-- Step 4: Main anonymous PL/SQL block to call the procedure
+BEGIN
+    -- Call the procedure to calculate total marks
+    calculate_total_marks;
+
+    -- Output the result to verify that the total marks have been updated
+    DBMS_OUTPUT.PUT_LINE('Total marks calculated and stored for all students.');
+END;
+/
+
+-- Step 5: Verify the results by selecting all the records from sessional_exam
+SELECT * FROM sessional_exam;
