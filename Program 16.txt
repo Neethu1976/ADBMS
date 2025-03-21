@@ -1,0 +1,78 @@
+  Create a procedure named count_employees that counts the number of employees in a specific department.
+
+
+
+
+CREATE TABLE employees (
+    employee_id NUMBER PRIMARY KEY,
+    first_name VARCHAR2(50),
+    last_name VARCHAR2(50),
+    department_id NUMBER,
+    hire_date DATE,
+    job_title VARCHAR2(50),
+    salary NUMBER
+);
+
+
+SELECT object_type, object_name 
+FROM user_objects 
+WHERE object_name = 'EMPLOYEES';
+
+
+
+INSERT INTO employees (employee_id, first_name, last_name, department_id, hire_date, job_title, salary)
+VALUES (1, 'John', 'Doe', 10, TO_DATE('2021-01-01', 'YYYY-MM-DD'), 'Software Engineer', 60000);
+
+INSERT INTO employees (employee_id, first_name, last_name, department_id, hire_date, job_title, salary)
+VALUES (2, 'Jane', 'Smith', 10, TO_DATE('2022-03-15', 'YYYY-MM-DD'), 'Software Engineer', 65000);
+
+INSERT INTO employees (employee_id, first_name, last_name, department_id, hire_date, job_title, salary)
+VALUES (3, 'Alice', 'Johnson', 20, TO_DATE('2020-05-20', 'YYYY-MM-DD'), 'HR Manager', 70000);
+
+INSERT INTO employees (employee_id, first_name, last_name, department_id, hire_date, job_title, salary)
+VALUES (4, 'Bob', 'White', 10, TO_DATE('2019-07-25', 'YYYY-MM-DD'), 'QA Tester', 55000);
+
+
+
+employess.sql
+
+
+
+
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE count_employees(dept_id IN NUMBER) IS
+    emp_count NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO emp_count
+    FROM employees
+    WHERE department_id = dept_id;
+
+    DBMS_OUTPUT.PUT_LINE('Employee count in department ' || dept_id || ': ' || emp_count);
+END count_employees;
+/
+
+
+DECLARE
+    dept_id NUMBER; 
+BEGIN
+    dept_id := &dept_id; 
+    count_employees(dept_id);
+END;
+/
+
+
+
+
+
+SQL> @employee
+
+Procedure created.
+
+Enter value for dept_id: 2
+old   4:     dept_id := &dept_id;
+new   4:     dept_id := 2;
+Employee count in department 2: 0
+
+PL/SQL procedure successfully completed.
